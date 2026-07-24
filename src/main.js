@@ -13,6 +13,6 @@ new App({
     // Which CI/CD tools do you use in your project?
     tools: "Jenkins",
     // What do you want to learn in this workshop?
-    expectations: ["what you are talking about"],
+    expectations: ["just reducing unknowns"],
   },
 });
