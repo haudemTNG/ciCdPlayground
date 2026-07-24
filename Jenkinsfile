@@ -59,7 +59,8 @@ pipeline {
       always {
         junit(
             allowEmptyResults: true,
-            testResults: '**/reports/**/*.xml'
+                testResults: '**/reports/**/*.xml'
+            )
         }
-   } 
+    }
 }
