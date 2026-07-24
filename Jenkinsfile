@@ -1,36 +1,29 @@
 pipeline {
-    agent any
-    parameters {
+  agent any
+  parameters {
       string(name: 'Version', defaultValue: '1.0.0', description: 'Please provide version number.')
-    tools {
-        nodejs 'yarn'
-    }
+  }
+  tools {
+      nodejs 'yarn'
+  }
 
-    stages {
-       stage('pre') {
+  stages {
+      stage('pre') {
           steps {
-        script {
+      script {
           currentBuild.displayName = 'displayName'
           currentBuild.description = "${params.Version}"
-                }
-            }
+              }
+          }
       }
-        stage('install') {
-            steps {
-                sh 'yarn'
-            }
+      stage('install') {
+        steps {
+            sh 'yarn'
         }
-
-        stage('build') {
-            steps {
-                sh 'yarn build'
-            }
-        }
-
-        stage('test:unit') {
-            steps {
+      }
+      stage('unit-test') {
+          steps {
                 sh 'yarn test'
-
           }
           post {
               always {
@@ -38,10 +31,14 @@ pipeline {
               }
           }
       }
-
-        stage('test:e2e') {
-            steps {
-                sh 'yarn test:e2e'
+      stage('build') {
+          steps {
+              sh 'yarn build'
+          }
+      }
+      stage('integration-test') {
+          steps {
+              sh 'yarn test:e2e'
           }
           post {
               always {
@@ -50,7 +47,7 @@ pipeline {
           }
       }
 
-        stage('deploy') {
+      stage('deploy') {
             steps {
                 s3Upload consoleLogLevel: 'INFO', 
                   dontSetBuildResultOnFailure: false, 
