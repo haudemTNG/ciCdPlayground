@@ -11,7 +11,7 @@ new App({
     // What do you associate with the term 'CI/CD'?
     associations: ["red tests ^^"],
     // Which CI/CD tools do you use in your project?
-    tools: "Jenkins",
+    tools: "Jenkins?",
     // What do you want to learn in this workshop?
     expectations: ["just reducing unknowns"],
   },
