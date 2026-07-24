@@ -1,10 +1,20 @@
 pipeline {
     agent any
+    parameters {
+      string(name: 'Version', defaultValue: '1.0.0', description: 'Please provide version number.')
     tools {
         nodejs 'yarn'
     }
 
     stages {
+       stage('pre') {
+          steps {
+        script {
+          currentBuild.displayName = 'displayName'
+          currentBuild.description = "${params.Version}"
+                }
+            }
+      }
         stage('install') {
             steps {
                 sh 'yarn'
@@ -20,14 +30,25 @@ pipeline {
         stage('test:unit') {
             steps {
                 sh 'yarn test'
-            }
-        }
+
+          }
+          post {
+              always {
+                  junit 'reports/jest-junit.xml'
+              }
+          }
+      }
 
         stage('test:e2e') {
             steps {
                 sh 'yarn test:e2e'
-            }
-        }
+          }
+          post {
+              always {
+                  junit 'reports/cypress-junit.xml'
+              }
+          }
+      }
 
         stage('deploy') {
             steps {
@@ -53,14 +74,6 @@ pipeline {
                     profileName: 'role-based-access', 
                     userMetadata: []
             }
-        }
-    }
-    post {
-      always {
-        junit(
-            allowEmptyResults: true,
-                testResults: '**/reports/**/*.xml'
-            )
         }
     }
 }
