@@ -35,5 +35,4 @@ jobs:
       if: (!cancelled())
       with:
         files: |
-          **/reports/**/*.xml
-
+          reports/**/*.xml
